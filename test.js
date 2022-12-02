@@ -123,62 +123,6 @@ document.onload = (() => {
     layerControl.addOverlay(heat_map, "Real Time Data");
   });
 
-  // Promise.all(zip_codes.map(zipCode => {
-  //     getData(`/predict/zip/${zipCode}`).then(data => {
-  //       let weather = data["weather"];
-  //       if (weather) {
-  //         let weatherT = weather["Temperature(F)"];
-  //         let weatherH = weather["Humidity(%)"];
-  //         //var weatherP = Number(weather["Pressure(in)"]).toFixed(2);
-  //         document.getElementById("weatherT").textContent = weatherT;
-  //         document.getElementById("weatherH").textContent = weatherH;
-  //         //document.getElementById("weatherP").textContent = weatherP;
-  //       }
-
-  //       // READ DATA
-  //       data = data["predictions"];
-  //       let arr = [];
-  //       for (let i=1; i<data.length; i++) {
-  //           let parts = data[i];
-  //           if (parts["label"] != "0"){
-  //             arr.push([+parts["lat"], +parts["lon"]]);
-  //           }
-  //       }
-  //       console.log(zipCode);
-  //       heatData.push(...arr);
-  //     });
-  //   })
-  // ).finally(() => {
-    // heat_map = L.heatLayer(heatData, {"radius": 15});
-    // layerControl.addOverlay(heat_map, "Real Time Data");
-  // }).catch(err => console.error(err));
-  // zip_codes.forEach(zipCode => {
-  //   getData(`/predict/zip/${zipCode}`).then(data => {
-  //     let weather = data["weather"];
-  //     let weatherT = weather["Temperature(F)"];
-  //     let weatherH = weather["Humidity(%)"];
-  //     //var weatherP = Number(weather["Pressure(in)"]).toFixed(2);
-  //     document.getElementById("weatherT").textContent = weatherT;
-  //     document.getElementById("weatherH").textContent = weatherH;
-  //     //document.getElementById("weatherP").textContent = weatherP;
-
-  //     // READ DATA
-  //     data = data["predictions"];
-  //     let arr = [];
-  //     for (let i=1; i<data.length; i++) {
-  //         let parts = data[i];
-  //         if (parts["label"] != "0"){
-  //           arr.push([+parts["lat"], +parts["lon"]]);
-  //         }
-  //     }
-  //     console.log(zipCode);
-  //     heatData.push(...arr);
-  //   });
-  //   // setTimeout(0.01);
-  // });
-  // heat_map = L.heatLayer(heatData, {"radius": 15});
-  // layerControl.addOverlay(heat_map, "Real Time Data");
-
   let historicalData = [];
   getCsv().then(text => {
     let lines = text.split("\n");
