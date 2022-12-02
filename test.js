@@ -96,37 +96,62 @@ let datetime = new Date();
 document.getElementById("time").textContent = datetime;
 
 document.onload = (() => {
-  let heatData = [];
+  getData().then(data => {
+    let weather = data["weather"];
+    if (weather) {
+      let weatherT = weather["Temperature(F)"];
+      let weatherH = weather["Humidity(%)"];
+      //var weatherP = Number(weather["Pressure(in)"]).toFixed(2);
+      document.getElementById("weatherT").textContent = weatherT;
+      document.getElementById("weatherH").textContent = weatherH;
+      //document.getElementById("weatherP").textContent = weatherP;
+    }
 
-  Promise.all(zip_codes.map(zipCode => {
-      getData(`/predict/zip/${zipCode}`).then(data => {
-        let weather = data["weather"];
-        if (weather) {
-          let weatherT = weather["Temperature(F)"];
-          let weatherH = weather["Humidity(%)"];
-          //var weatherP = Number(weather["Pressure(in)"]).toFixed(2);
-          document.getElementById("weatherT").textContent = weatherT;
-          document.getElementById("weatherH").textContent = weatherH;
-          //document.getElementById("weatherP").textContent = weatherP;
+    // READ DATA
+    let preds = data["predictions"];
+    let heatData = [];
+    for (let i=1; i<preds.length; i++) {
+        let parts = preds[i];
+        if (preds["label"] != "0"){
+          heatData.push([+parts["lat"], +parts["lon"]]);
         }
-
-        // READ DATA
-        data = data["predictions"];
-        let arr = [];
-        for (let i=1; i<data.length; i++) {
-            let parts = data[i];
-            if (parts["label"] != "0"){
-              arr.push([+parts["lat"], +parts["lon"]]);
-            }
-        }
-        console.log(zipCode);
-        heatData.push(...arr);
-      });
-    })
-  ).finally(() => {
+    }
+    console.log(zipCode);
+  }).catch(error => console.error(error))
+  .finally(() => {
     heat_map = L.heatLayer(heatData, {"radius": 15});
     layerControl.addOverlay(heat_map, "Real Time Data");
-  }).catch(err => console.error(err));
+  });
+
+  // Promise.all(zip_codes.map(zipCode => {
+  //     getData(`/predict/zip/${zipCode}`).then(data => {
+  //       let weather = data["weather"];
+  //       if (weather) {
+  //         let weatherT = weather["Temperature(F)"];
+  //         let weatherH = weather["Humidity(%)"];
+  //         //var weatherP = Number(weather["Pressure(in)"]).toFixed(2);
+  //         document.getElementById("weatherT").textContent = weatherT;
+  //         document.getElementById("weatherH").textContent = weatherH;
+  //         //document.getElementById("weatherP").textContent = weatherP;
+  //       }
+
+  //       // READ DATA
+  //       data = data["predictions"];
+  //       let arr = [];
+  //       for (let i=1; i<data.length; i++) {
+  //           let parts = data[i];
+  //           if (parts["label"] != "0"){
+  //             arr.push([+parts["lat"], +parts["lon"]]);
+  //           }
+  //       }
+  //       console.log(zipCode);
+  //       heatData.push(...arr);
+  //     });
+  //   })
+  // ).finally(() => {
+    // heat_map = L.heatLayer(heatData, {"radius": 15});
+    // layerControl.addOverlay(heat_map, "Real Time Data");
+  // }).catch(err => console.error(err));
   // zip_codes.forEach(zipCode => {
   //   getData(`/predict/zip/${zipCode}`).then(data => {
   //     let weather = data["weather"];
