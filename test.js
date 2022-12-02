@@ -118,7 +118,7 @@ document.onload = (() => {
     }
     console.log(zipCode);
   }).catch(error => console.error(error))
-  .finally(() => {
+  .then(() => {
     heat_map = L.heatLayer(heatData, {"radius": 15});
     layerControl.addOverlay(heat_map, "Real Time Data");
   });
