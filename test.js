@@ -96,6 +96,7 @@ let datetime = new Date();
 document.getElementById("time").textContent = datetime;
 
 document.onload = (() => {
+  let heatData = [];
   getData().then(data => {
     let weather = data["weather"];
     if (weather) {
@@ -109,7 +110,6 @@ document.onload = (() => {
 
     // READ DATA
     let preds = data["predictions"];
-    let heatData = [];
     for (let i=1; i<preds.length; i++) {
         let parts = preds[i];
         if (preds["label"] != "0"){
