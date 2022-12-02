@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Accidents in Los Angeles</title>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/python-visualization/folium@main/folium/templates/leaflet_heat.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
+    <script src="https://turbo87.github.io/sidebar-v2/js/leaflet-sidebar.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" >
+    <link rel="stylesheet" href="https://turbo87.github.io/sidebar-v2/css/leaflet-sidebar.css" />
+
+            <style>
+                body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                html, body, #map {
+                    height: 100.0%;
+                    font: 15pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+                }
+
+                .lorem {
+                    font-style: italic;
+                    color: #AAA;
+                }
+
+                .loader {
+                  border: 16px solid #f3f3f3; /* Light grey */
+                  border-top: 16px solid #3498db; /* Blue */
+                  border-radius: 50%;
+                  width: 120px;
+                  height: 120px;
+                  animation: spin 2s linear infinite;
+                }
+
+                @keyframes spin {
+                  0% { transform: rotate(0deg); }
+                  100% { transform: rotate(360deg); }
+                }
+
+                @media{ .sidebar{
+                    width: 700px;
+                }}
+
+                .sidebar-header{
+                    font-size: 18.0pt;
+                }
+            </style>
+</head>
+
+<body>
+            <div id="sidebar" class="sidebar collapsed">
+                <!-- Nav tabs -->
+                <div class="sidebar-tabs">
+                    <ul role="tablist">
+                        <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+                        <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
+                        <li><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
+                        <li><a href="https://github.gatech.edu/jsaunders40/CSE6242-Group-Project/tree/api_model_merge/api" role="tab" target="_blank"><i class="fa fa-github"></i></a></li>
+                    </ul>
+
+                    <ul role="tablist">
+                        <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+                    </ul>
+                </div>
+
+                <!-- Tab panes -->
+                <div class="sidebar-content">
+                    <div class="sidebar-pane" id="home">
+                        <h1 class="sidebar-header">
+                            Traffic Accident Hotspots
+                            <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                        </h1>
+
+                        <p> <b> Time: </b> <span id="time"> </span> </p>
+
+                        <p> <b> Weather: </b> <span id="weatherT"> </span>F, <span id="weatherH"> </span>% humidity </p>
+
+                        <p class="lorem"> Motor vehicle crashes are a leading cause of death in the United States. This project develops a tool to be used by both civilian and first responders that identifies traffic accident hotspots based on user input date. This tool allows users to map along the safest routes and identifies areas with high accident possibility for first responders. We used a XGBoost classifier to model the accidents and show results by calling the API we developed and visualizing with XXX.  </p>
+
+                        <p class="lorem"> <img src="img_factors.jpg" alt="visualization of factors" style=”width:700px;height:400px;> </p>
+
+                        <p class="lorem"> test </p>
+
+                        <p class="lorem"> test </p>
+                    </div>
+
+                    <div class="sidebar-pane" id="profile">
+                        <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+                        <p> About us </p>
+                    </div>
+
+                    <div class="sidebar-pane" id="messages">
+                        <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+                        <p> Use this email to contact us</p>
+                    </div>
+
+                    <div class="sidebar-pane" id="settings">
+                        <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 50px; margin-bottom: 20px;">Map Loading... </div>
+            <div style="width: 120px; margin-left: auto; margin-right: auto;"><div class="loader"></div></div>
+
+            <div id="map" class="folium-map"></div>
+</body>
+
+<script>
+            var datetime = new Date();
+            //console.log(datetime)
+            document.getElementById("time").textContent = datetime;
+
+            const apiBaseUrl = 'http://localhost:8000/predict/all';
+            //const apiBaseUrl = 'http://localhost:8000';
+            fetch(apiBaseUrl).then((resp) => resp.json())
+                .then((data) => {
+                    // WEATHER INFO
+                    var weather = data["weather"];
+                    var weatherT = weather["Temperature(F)"];
+                    var weatherH = weather["Humidity(%)"];
+                    //var weatherP = Number(weather["Pressure(in)"]).toFixed(2);
+                    document.getElementById("weatherT").textContent = weatherT;
+                    document.getElementById("weatherH").textContent = weatherH;
+                    //document.getElementById("weatherP").textContent = weatherP;
+
+                    // READ DATA
+                    data = data["predictions"];
+                    var heatData = [];
+                    for (var i=1; i<data.length; i++) {
+                        var parts = data[i];
+                        if (parts["label"] != "0"){
+                            heatData.push([Number(parts["lat"]), Number(parts["lon"])]);
+                        }
+                    }
+
+                    // CREATE A MAP
+                    var map = L.map(
+                        "map",
+                        {
+                            center: [34.2012, -118.4662],
+                            crs: L.CRS.EPSG3857,
+                            zoom: 11,
+                            //scaleRadius: false,
+                            zoomControl: true,
+                            preferCanvas: false,
+                        }
+                    );
+
+
+
+                    // TILE LAYER
+                    var tile_layer = L.tileLayer(
+                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 6, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+                    ).addTo(map);
+
+                    //var marker = L.marker([34.2012, -118.4662]).addTo(map);
+
+                    const sidebar = L.control.sidebar('sidebar').addTo(map);
+                    sidebar.open('home');
+
+                    // HEATMAP LAYER PREDICTION
+                    heat_map = L.heatLayer(
+                        heatData,  // data for heatmap
+                        {"radius": 15}
+                    ).addTo(map);
+
+                    // HEATMAP LAYER HISTORICAL
+                    fetch('data_short.csv').then(function(response){
+                        return response.text();
+                    }).then(function(text){
+                        // Start_Lat,Start_Lng
+                        var lines = text.split("\n");
+                        var historicalData = [];
+
+                        for (var i=1; i<lines.length - 1; i++) {  // skip the title
+                            var parts = lines[i].split(",");
+                            historicalData.push([Number(parts[4]), Number(parts[5])]);
+                        }
+                        historical_heat_map = L.heatLayer(
+                            historicalData,
+                            {"radius": 15}
+                        ).addTo(map)
+                    });
+
+                    // LAYERS LEGEND
+                     var layer_control = {
+                        base_layers : {
+                            "Select layer:" : tile_layer,
+                        },
+                        overlays :  {
+                            //"Heat map - all time data" : historical_heat_map,
+                            "Real time prediction" : heat_map,
+                            // "polygon" : geo_json_aab607d18ecce109b7603d8704589b4c,
+                        },
+                    };
+
+                    L.control.layers(
+                        layer_control.base_layers,
+                        layer_control.overlays,
+                        {"autoZIndex": true, "collapsed": false, "position": "topright"}
+                    ).addTo(map);
+
+                    /*async function fetchHistorical(){
+                        const responce = await fetch('data_short.csv');
+                        const csv_as_text = await responce.text();
+                        //console.log(csv_as_text)
+                        return csv_as_text
+                    }
+
+                    async function test(){
+                        const exam = fetchHistorical();
+                        console.log(exam);
+                    }
+
+                    console.log(test())*/
+
+
+
+
+
+
+                    /*// TEXT BOX
+                    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        }).addTo(map);
+
+                        var popup = L.popup({
+                              closeButton: false,
+                              autoClose: false
+                            })
+                            .setLatLng([34.2012, -118.4662])
+                            .setContent('<p>Text box on a map</p>')
+                            .openOn(map);*/
+
+                    /* // SIDEBAR
+                    var sidebar = L.control.sidebar('sidebar', {
+                        position: 'left',
+                        closeButton: 'true'
+                    });
+
+                    map.addControl(sidebar);
+
+                    sidebar.setContent('test <b>TEXT TEXT TEXT</b> test');
+
+                    sidebar.show();
+
+                    var visible = sidebar.isVisible();*/
+
+                    // EASYBUTTONS
+                    /*var helloPopup = L.popup().setContent('Hello World!');
+
+                    L.easyButton('fa-star', function(btn, map){
+                        helloPopup.setLatLng(map.getCenter()).openOn(map);
+                    }).addTo(map);
+
+                    L.easyButton('<strong>A<strong>', function(btn, map){
+                        alert("Hi! This is our project");
+                    }).addTo(map);*/
+
+
+            });
+</script>
